@@ -1,0 +1,54 @@
+.navbar-main {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    height: 8.4rem;
+    background: #36416A;
+    box-sizing: border-box;
+    padding: 2rem;
+    justify-content: space-between;
+}
+
+.heading-navbar {
+    cursor: pointer;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2.8rem;
+    line-height: 3.6rem;
+    color: #FFFFFF;
+}
+
+.buttons-main {
+    display: flex;
+    gap: .5rem;
+}
+
+.login-main {
+    cursor: pointer;
+    width: 13.5rem;
+    height: 4.5rem;
+    border: none;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2.4rem;
+    line-height: 3.1rem;
+    color: #FFFFFF;
+    background-color: #36416A;
+}
+
+.signup-main {
+    cursor: pointer;
+    width: 13.5rem;
+    height: 4.5rem;
+    border: .17rem solid #FFFFFF;
+    border-radius: .8rem;
+    background-color: #36416A;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2.4rem;
+    line-height: 3.1rem;
+    color: #FFFFFF;
+}
