@@ -1,0 +1,30 @@
+.hero-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    padding: 2rem;
+}
+
+.hero-left-img {
+    width: 57.9rem;
+    height: 59.8rem;
+}
+
+.hero-heading {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 5.5rem;
+    line-height: 147.2%;
+    color: #000000;
+}
+
+.content-hero {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2.5rem;
+    line-height: 148.2%;
+    color: #6A6A6A;
+}
