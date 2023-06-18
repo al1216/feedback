@@ -7,6 +7,7 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Customer = require("./customers");
+const Product = require("./products");
 dotEnv.config();
 
 let token;
@@ -136,6 +137,28 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post("/add-products", async (req,res) => {
+  let {name,category,logoUrl,linkProduct,desc} = req.body;
+  category = category.split(",");
+  for(let i = 0; i < category.length; i++){
+    category[i] = category[i].trim();
+  }
+  // let upvotesCount = 0;
+  await Product.create({name,category,logoUrl,linkProduct,desc}).then(() => {
+    res.json({mesage: 'Product added!'});
+  }).catch((err) => {
+    console.log(err);
+  })
+})
+
+app.get("/products", async (req,res) => {
+  await Product.find().sort({upvotesCount: -1}).then((product) => {
+    res.json(product);
+  }).catch((err) => {
+    console.log(err);
+  })
+})
+
 // throw jwt token
 
 app.get("/get-token", (req, res) => {
@@ -145,6 +168,41 @@ app.get("/get-token", (req, res) => {
     res.json({ code: 200, message: token });
   }
 });
+
+// update count
+
+app.get('/update-upvote-count', async (req,res) => {
+  const {count, id} = req.query;
+  await Product.findByIdAndUpdate(id, {upvotesCount: count}).then((product) => {
+    res.json(product);
+    // res.redirect('/products');
+  }).catch((err) => {
+    console.log(err);
+  })
+
+})
+
+// update comments 
+
+app.get('/update-comments', async (req,res) => {
+  const {keys,values} = req.query;
+
+  console.log(keys);
+  console.log(values);
+
+  for(let i = 0; i < keys.length; i++){
+    let id = keys[i];
+    let comments = values[i];
+
+    await Product.findByIdAndUpdate(id,{comments:comments}).then((product) => {
+      res.json(product);
+    }).catch((err) => {
+      console.log(err);
+    }) 
+  }
+
+  res.json({mesage:'s'});
+})
 
 app.listen(process.env.SERVER_PORT, () => {
   mongoose
