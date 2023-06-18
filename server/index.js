@@ -137,27 +137,55 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.post("/add-products", async (req,res) => {
-  let {name,category,logoUrl,linkProduct,desc} = req.body;
+app.post("/add-products", async (req, res) => {
+  let { name, category, logoUrl, linkProduct, desc } = req.body;
   category = category.split(",");
-  for(let i = 0; i < category.length; i++){
+  for (let i = 0; i < category.length; i++) {
     category[i] = category[i].trim();
   }
-  // let upvotesCount = 0;
-  await Product.create({name,category,logoUrl,linkProduct,desc}).then(() => {
-    res.json({mesage: 'Product added!'});
-  }).catch((err) => {
-    console.log(err);
+  let upvotesCount = 0;
+  let cLen = 0;
+  await Product.create({
+    name,
+    category,
+    logoUrl,
+    linkProduct,
+    desc,
+    upvotesCount,
+    cLen,
   })
-})
+    .then(() => {
+      res.json({ mesage: "Product added!" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
-app.get("/products", async (req,res) => {
-  await Product.find().sort({upvotesCount: -1}).then((product) => {
-    res.json(product);
-  }).catch((err) => {
-    console.log(err);
-  })
-})
+app.get("/products", async (req, res) => {
+  await Product.find()
+    .sort({ upvotesCount: -1 })
+    .then((product) => {
+      res.json(product);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// sort by comments length (descending)
+
+app.get("/comments", async (req, res) => {
+  // console.log("called");
+  await Product.find()
+    .sort({ cLen: -1 })
+    .then((product) => {
+      res.json(product);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 // throw jwt token
 
@@ -171,38 +199,49 @@ app.get("/get-token", (req, res) => {
 
 // update count
 
-app.get('/update-upvote-count', async (req,res) => {
-  const {count, id} = req.query;
-  await Product.findByIdAndUpdate(id, {upvotesCount: count}).then((product) => {
-    res.json(product);
-    // res.redirect('/products');
-  }).catch((err) => {
-    console.log(err);
-  })
+app.get("/update-upvote-count", async (req, res) => {
+  const { count, id } = req.query;
+  await Product.findByIdAndUpdate(id, { upvotesCount: count })
+    .then((product) => {
+      res.json(product);
+      // res.redirect('/products');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // res.json({message: 'updated comment'});
+});
 
-})
+// update comments
 
-// update comments 
+app.get("/update-comments", async (req, res) => {
+  const { keys, values } = req.query;
 
-app.get('/update-comments', async (req,res) => {
-  const {keys,values} = req.query;
+  // console.log(keys);
+  // console.log(values);
 
-  console.log(keys);
-  console.log(values);
-
-  for(let i = 0; i < keys.length; i++){
+  for (let i = 0; i < keys.length; i++) {
     let id = keys[i];
     let comments = values[i];
 
-    await Product.findByIdAndUpdate(id,{comments:comments}).then((product) => {
-      res.json(product);
-    }).catch((err) => {
-      console.log(err);
-    }) 
+    await Product.findByIdAndUpdate(id, { comments: comments })
+      .then((product) => {
+        // res.json(product);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    await Product.findByIdAndUpdate(id, { cLen: comments.length })
+      .then((product) => {
+        // res.json(product);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  res.json({mesage:'s'});
-})
+  res.json({ message: "updated comment" });
+});
 
 app.listen(process.env.SERVER_PORT, () => {
   mongoose

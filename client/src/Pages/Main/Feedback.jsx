@@ -6,7 +6,6 @@ export default function Feedback() {
   let useRefSend = useRef();
   let [isCommentBtnClicked, setIsCommentBtnClicked] = useState(false);
   let [isLoggedIn, setIsLoggedIn] = useState(false);
-  let [allComments, setAllComments] = useState([]);
   let [myMapComments, setMyMapComments] = useState(new Map());
   let [aComment, setAComment] = useState("");
   let [upvotesCount, setUpvotesCount] = useState(0);
@@ -14,6 +13,30 @@ export default function Feedback() {
   let [commentprodId, setcommentProdId] = useState("");
   let [upvoteprodId, setUpvoteprodId] = useState("");
   let [isUpvoteClicked, setIsUpvoteClicked] = useState(false);
+  let [sortbySelection, setSortBySelection] = useState("");
+
+  let onChangeSortBy = (sort) => {
+    setSortBySelection(sort);
+    if (sort === "Comment") {
+      axios
+        .get(`${process.env.REACT_APP_HOST}/comments`)
+        .then((res) => {
+          setProducts(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .get(`${process.env.REACT_APP_HOST}/products`)
+        .then((res) => {
+          setProducts(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 
   let updateUpvotesInDatabase = async (count, id) => {
     await axios
@@ -33,19 +56,22 @@ export default function Feedback() {
   };
 
   let updateCommentsInDatabase = async (map) => {
-    let keys = Array.from( map.keys() );
-    let values = Array.from( map.values() );
-    await axios.get(`${process.env.REACT_APP_HOST}/update-comments`, {
-      params: {
-        keys: keys,
-        values: values
-      }
-    }).then((res) => {
-      console.log('done map');
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
+    let keys = Array.from(map.keys());
+    let values = Array.from(map.values());
+    await axios
+      .get(`${process.env.REACT_APP_HOST}/update-comments`, {
+        params: {
+          keys: keys,
+          values: values,
+        },
+      })
+      .then((res) => {
+        console.log("done map");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   let commentButtonClicked = (id) => {
     setcommentProdId(id);
     setIsCommentBtnClicked(!isCommentBtnClicked);
@@ -53,16 +79,14 @@ export default function Feedback() {
 
   let postAComment = (id) => {
     setcommentProdId(id);
-    setAllComments([aComment, ...allComments]);
-    if (myMapComments.has(id) === true){
-      setMyMapComments(myMapComments.set(id, [aComment, ...myMapComments.get(id)]));
-    }
-    else{
+    if (myMapComments.has(id) === true) {
+      setMyMapComments(
+        myMapComments.set(id, [aComment, ...myMapComments.get(id)])
+      );
+    } else {
       setMyMapComments(myMapComments.set(id, [aComment, ...[]]));
     }
     updateCommentsInDatabase(myMapComments);
-    // console.log(myMapComments); 
-    // console.log(id,commentprodId);
     useRefSend.current.value = "";
   };
 
@@ -87,22 +111,23 @@ export default function Feedback() {
     if (token === "undefined" || !token) setIsLoggedIn(false);
     else setIsLoggedIn(true);
 
-    axios
-      .get(`${process.env.REACT_APP_HOST}/products`)
-      .then((res) => {
-        setProducts(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (sortbySelection !== "Comment") {
+      axios
+        .get(`${process.env.REACT_APP_HOST}/products`)
+        .then((res) => {
+          setProducts(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    for (let i = 0; i < products.length; i++) {
+      let id = products[i]._id;
+      let c = products[i].comments;
 
-      for(let i = 0; i < products.length; i++){
-        let id = products[i]._id;
-        let c = products[i].comments;
-
-        myMapComments.set(id,c);
-      }
-  }, [allComments.length, products,myMapComments]);
+      myMapComments.set(id, c);
+    }
+  }, [products, myMapComments,sortbySelection]);
 
   return (
     <div className="feedback-main">
@@ -141,7 +166,11 @@ export default function Feedback() {
             <p className="suggestion-count">10 Suggestions</p>
             <div className="select-sortby-caption">
               <p className="sortby-caption">Sort by:</p>
-              <select name="sort" className="sortby-feedback">
+              <select
+                name="sort"
+                className="sortby-feedback"
+                onChange={(e) => onChangeSortBy(e.target.value)}
+              >
                 <option value="Upvotes" selected>
                   Upvotes
                 </option>
@@ -223,7 +252,11 @@ export default function Feedback() {
                       <button className="edit-product">Edit</button>
                     )}
                     <div className="comment-count-box">
-                      <p className="comment-count">{!myMapComments.get(product._id) ? 0 : myMapComments.get(product._id).length}</p>
+                      <p className="comment-count">
+                        {!myMapComments.get(product._id)
+                          ? 0
+                          : myMapComments.get(product._id).length}
+                      </p>
                       <img
                         src="comments.png"
                         alt=""
