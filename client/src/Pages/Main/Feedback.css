@@ -66,6 +66,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: #000000;
 }
 
 .filter-name {
@@ -74,6 +79,11 @@
     font-weight: 400;
     font-size: 1.5rem;
     color: #000000;
+}
+
+.addon-css{
+    background-color: #36416A;
+    color: white;
 }
 
 /* Feedback Right */

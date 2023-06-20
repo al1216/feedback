@@ -97,7 +97,8 @@ app.post("/login", isFilledLoginForm, isRegistered, (req, res) => {
       let isMatched = await bcrypt.compare(password, customer.password);
       if (isMatched) {
         token = jwt.sign({ email, password }, process.env.JWT_SECRET);
-        res.json({ message: "Logged in" });
+        // res.json({ message: "Logged in" });
+        res.redirect(`${process.env.HOST_URL}/`);
       } else {
         res.json({ mesage: "Please enter correct password" });
       }
@@ -128,7 +129,8 @@ app.post("/signup", async (req, res) => {
 
       await Customer.create({ name, email, phone, password: encryptedPassword })
         .then(() => {
-          res.json({ mesage: "Customer created successfully!" });
+          // res.json({ mesage: "Customer created successfully!" });
+          res.redirect(`${process.env.HOST_URL}/`);
         })
         .catch((err) => {
           res.json({ "Error in creating customer": err });
@@ -163,14 +165,28 @@ app.post("/add-products", async (req, res) => {
 });
 
 app.get("/products", async (req, res) => {
-  await Product.find()
-    .sort({ upvotesCount: -1 })
-    .then((product) => {
-      res.json(product);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  const { filter } = req.query;
+
+  // console.log(filter);
+
+  if (!filter || filter === "All" || filter === "") {
+    await Product.find()
+      .sort({ upvotesCount: -1 })
+      .then((product) => {
+        res.json(product);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    await Product.find({ category: { $in: filter } })
+      .then((product) => {
+        res.json(product);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 });
 
 // sort by comments length (descending)
@@ -217,30 +233,67 @@ app.get("/update-upvote-count", async (req, res) => {
 app.get("/update-comments", async (req, res) => {
   const { keys, values } = req.query;
 
-  // console.log(keys);
-  // console.log(values);
-
   for (let i = 0; i < keys.length; i++) {
     let id = keys[i];
     let comments = values[i];
 
     await Product.findByIdAndUpdate(id, { comments: comments })
-      .then((product) => {
-        // res.json(product);
-      })
+      .then((product) => {})
       .catch((err) => {
         console.log(err);
       });
     await Product.findByIdAndUpdate(id, { cLen: comments.length })
-      .then((product) => {
-        // res.json(product);
-      })
+      .then((product) => {})
       .catch((err) => {
         console.log(err);
       });
   }
 
   res.json({ message: "updated comment" });
+});
+
+// get feedback filters
+
+app.get("/feed-filters", async (req, res) => {
+  let prod = [],
+    filters = ["All"];
+  await Product.find({})
+    .then((product) => {
+      prod = product;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  // console.log(prod);
+  if (prod)
+    prod.map((product) => {
+      // console.log(product.category);
+      for (let i = 0; i < product.category.length; i++) {
+        if (!filters.includes(product.category[i])) {
+          filters.push(product.category[i]);
+        }
+      }
+    });
+  res.json({ filters });
+});
+
+// get filter based product
+
+app.get("/get-filter-product", async (req, res) => {
+  const { filter } = req.query;
+  // let filter = "Fintech";
+
+  if (filter === "All") {
+    res.redirect("/products");
+  } else {
+    await Product.find({ category: { $in: filter } })
+      .then((product) => {
+        res.json(product);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 });
 
 app.listen(process.env.SERVER_PORT, () => {

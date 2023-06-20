@@ -14,28 +14,26 @@ export default function Feedback() {
   let [upvoteprodId, setUpvoteprodId] = useState("");
   let [isUpvoteClicked, setIsUpvoteClicked] = useState(false);
   let [sortbySelection, setSortBySelection] = useState("");
+  let [filters, setFilters] = useState([]);
+  let [refOfLastClickedFilter, setRefOfLastClickedFilter] = useState();
+  let [activateFilterSelection, setActivateFilterSelection] = useState(false);
+  let [afilter, setaFilter] = useState("");
 
-  let onChangeSortBy = (sort) => {
+  let onChangeSortBy = async (sort) => {
     setSortBySelection(sort);
+    console.log(sort);
     if (sort === "Comment") {
-      axios
+      await axios
         .get(`${process.env.REACT_APP_HOST}/comments`)
         .then((res) => {
-          setProducts(res.data);
+          if (JSON.stringify(res.data) !== JSON.stringify(products)) {
+            setProducts(res.data);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
-    } else {
-      axios
-        .get(`${process.env.REACT_APP_HOST}/products`)
-        .then((res) => {
-          setProducts(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    } 
   };
 
   let updateUpvotesInDatabase = async (count, id) => {
@@ -106,28 +104,81 @@ export default function Feedback() {
     setUpvotesCount(upvotesCount);
   };
 
-  useEffect(() => {
-    let token = localStorage.getItem("token");
-    if (token === "undefined" || !token) setIsLoggedIn(false);
-    else setIsLoggedIn(true);
-
-    if (sortbySelection !== "Comment") {
-      axios
-        .get(`${process.env.REACT_APP_HOST}/products`)
+  let getProductsByUpvotes = async (filter) => {
+    if (sortbySelection === "Comment") {
+      onChangeSortBy(sortbySelection);
+    } else {
+      await axios
+        .get(`${process.env.REACT_APP_HOST}/products`, {
+          params: {
+            filter: filter,
+          },
+        })
         .then((res) => {
-          setProducts(res.data);
+          if (JSON.stringify(res.data) !== JSON.stringify(products)) {
+            setProducts(res.data);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
     }
+
+    // console.log(products);
+  };
+
+  let OnClickFilterSelection = (e, filter) => {
+    setaFilter(filter);
+    setActivateFilterSelection(true);
+    try {
+      if (refOfLastClickedFilter !== "undefined") {
+        refOfLastClickedFilter.remove("addon-css");
+      }
+    } catch (err) {
+      // console.log(err);
+    }
+
+    console.log(filter);
+    e.currentTarget.classList.toggle("addon-css");
+    setRefOfLastClickedFilter(e.currentTarget.classList);
+    getProductsByUpvotes(filter);
+  };
+
+  let feedFilterIntoFrontend = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_HOST}/feed-filters`)
+      .then((res) => {
+        setFilters(res.data.filters);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (token === "undefined" || !token) setIsLoggedIn(false);
+    else setIsLoggedIn(true);
+
+    feedFilterIntoFrontend();
+
+    if (!activateFilterSelection) getProductsByUpvotes("");
+
     for (let i = 0; i < products.length; i++) {
       let id = products[i]._id;
       let c = products[i].comments;
 
       myMapComments.set(id, c);
     }
-  }, [products, myMapComments,sortbySelection]);
+  }, [
+    products,
+    myMapComments,
+    filters,
+    sortbySelection,
+    activateFilterSelection,
+    afilter,
+    getProductsByUpvotes,
+  ]);
 
   return (
     <div className="feedback-main">
@@ -137,33 +188,22 @@ export default function Feedback() {
           <p className="content-box">Apply Filter</p>
         </div>
         <div className="apply-feedback-filters">
-          <div className="individual-filter">
-            <p className="filter-name">All</p>
-          </div>
-          <div className="individual-filter">
-            <p className="filter-name">Fintech</p>
-          </div>
-          <div className="individual-filter">
-            <p className="filter-name">Edtech</p>
-          </div>
-          <div className="individual-filter">
-            <p className="filter-name">B2B</p>
-          </div>
-          <div className="individual-filter">
-            <p className="filter-name">Saas</p>
-          </div>
-          <div className="individual-filter">
-            <p className="filter-name">Agritech</p>
-          </div>
-          <div className="individual-filter">
-            <p className="filter-name">Medtech</p>
-          </div>
+          {filters.map((filter) => (
+            <div
+              className="individual-filter"
+              onClick={(e) => {
+                OnClickFilterSelection(e, filter);
+              }}
+            >
+              {filter}
+            </div>
+          ))}
         </div>
       </div>
       <div className="feedback-right">
         <div className="suggest-sort-products">
           <div className="suggest-sort">
-            <p className="suggestion-count">10 Suggestions</p>
+            <p className="suggestion-count">{products.length} Suggestions</p>
             <div className="select-sortby-caption">
               <p className="sortby-caption">Sort by:</p>
               <select
