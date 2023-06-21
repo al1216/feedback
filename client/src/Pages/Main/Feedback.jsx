@@ -1,9 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Feedback.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import SignUp from "./SignUp";
+import AddProduct from "./AddProduct";
+import EditProduct from "./EditProduct";
+import ReactDOM from "react-dom";
 
 export default function Feedback() {
   let useRefSend = useRef();
+  let navigate = useNavigate();
   let [isCommentBtnClicked, setIsCommentBtnClicked] = useState(false);
   let [isLoggedIn, setIsLoggedIn] = useState(false);
   let [myMapComments, setMyMapComments] = useState(new Map());
@@ -18,6 +24,10 @@ export default function Feedback() {
   let [refOfLastClickedFilter, setRefOfLastClickedFilter] = useState();
   let [activateFilterSelection, setActivateFilterSelection] = useState(false);
   let [afilter, setaFilter] = useState("");
+  let [clickedAddProduct, setClikedAddProduct] = useState();
+  let [isLogIn, setIsLogIn] = useState();
+  let [isEditBtnClicked, setIsEditButtonClicked] = useState();
+  let [zIndex, setZIndex] = useState();
 
   let onChangeSortBy = async (sort) => {
     setSortBySelection(sort);
@@ -33,7 +43,7 @@ export default function Feedback() {
         .catch((err) => {
           console.log(err);
         });
-    } 
+    }
   };
 
   let updateUpvotesInDatabase = async (count, id) => {
@@ -124,7 +134,7 @@ export default function Feedback() {
         });
     }
 
-    // console.log(products);
+    console.log(products);
   };
 
   let OnClickFilterSelection = (e, filter) => {
@@ -155,6 +165,20 @@ export default function Feedback() {
       });
   };
 
+  let makeZIndexToAllComponents = () => {
+    document.getElementsByClassName("feedback-box")[0].style.zIndex = -1;
+    document.getElementsByClassName("apply-feedback-filters")[0].style.zIndex =
+      -1;
+    document.getElementsByClassName("post-feedback")[0].style.zIndex = -1;
+    document.getElementsByClassName("navbar-main")[0].style.zIndex = -1;
+    document.getElementsByClassName("hero-main")[0].style.zIndex = -1;
+  };
+
+  let makeBgColorDark = () => {
+    let node = document.getElementsByClassName("container-main")[0];
+    node.style.background = "rgba(0, 0, 0, 0.6)";
+  };
+
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (token === "undefined" || !token) setIsLoggedIn(false);
@@ -169,6 +193,12 @@ export default function Feedback() {
       let c = products[i].comments;
 
       myMapComments.set(id, c);
+    }
+
+    let closeSignUp = localStorage.getItem("closeSignUp");
+    if (closeSignUp === "true") {
+      setIsLogIn(true);
+      localStorage.removeItem("closeSignUp");
     }
   }, [
     products,
@@ -201,7 +231,11 @@ export default function Feedback() {
         </div>
       </div>
       <div className="feedback-right">
-        <div className="suggest-sort-products">
+        <div
+          className={`suggest-sort-products ${
+            zIndex === true ? "makeZIndex" : ""
+          }`}
+        >
           <div className="suggest-sort">
             <p className="suggestion-count">{products.length} Suggestions</p>
             <div className="select-sortby-caption">
@@ -218,7 +252,23 @@ export default function Feedback() {
               </select>
             </div>
           </div>
-          <button className="addProduct-btn">+ Add product</button>
+          <button
+            className="addProduct-btn"
+            onClick={() => {
+              setZIndex(true);
+              makeZIndexToAllComponents();
+              makeBgColorDark();
+              if (isLoggedIn) {
+                setClikedAddProduct(true);
+                setIsLogIn(true);
+              } else {
+                setIsLogIn(false);
+                setClikedAddProduct(false);
+              }
+            }}
+          >
+            + Add product
+          </button>
         </div>
         <div className="post-feedback">
           {products.map((product) => (
@@ -289,7 +339,18 @@ export default function Feedback() {
                   </div>
                   <div className="edit-comments-count-box">
                     {isLoggedIn && (
-                      <button className="edit-product">Edit</button>
+                      <button
+                        className="edit-product"
+                        onClick={() => {
+                          localStorage.setItem("id", product._id);
+                          setIsEditButtonClicked(true);
+                          setZIndex(true);
+                          makeZIndexToAllComponents();
+                          makeBgColorDark();
+                        }}
+                      >
+                        Edit
+                      </button>
                     )}
                     <div className="comment-count-box">
                       <p className="comment-count">
@@ -351,6 +412,10 @@ export default function Feedback() {
           ))}
         </div>
       </div>
+
+      {clickedAddProduct === true && <AddProduct />}
+      {isLogIn === false && <SignUp />}
+      {isEditBtnClicked === true && <EditProduct />}
     </div>
   );
 }

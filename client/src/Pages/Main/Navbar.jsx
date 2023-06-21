@@ -13,7 +13,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div className="navbar-main">
+    <div className="navbar-main bgColorOfModal">
       <h1 className="heading-navbar" onClick={() => navigate(0)}>
         Feedback
       </h1>

@@ -61,9 +61,10 @@ const isFilledLoginForm = (req, res, next) => {
     !isValidEmail(email) ||
     password.trim().length === 0
   ) {
-    res.json({
-      mesage: "Some of your feilds are missing (Or) Enter valid details",
-    });
+    // res.json({
+    //   mesage: "Some of your feilds are missing (Or) Enter valid details",
+    // });
+    res.redirect(`${process.env.HOST_URL}/missing-details`);
   } else {
     next();
   }
@@ -75,10 +76,31 @@ const isRegistered = async (req, res, next) => {
   if (customer) {
     next();
   } else {
-    res.json({
-      message:
-        "We cant able to find an account registered with this email-id, Sign-up",
-    });
+    // res.json({
+    //   message:
+    //     "We cant able to find an account registered with this email-id, Sign-up",
+    // });
+    res.redirect(`${process.env.HOST_URL}/no-account-found`);
+  }
+};
+
+let addProductIsFilled = (req, res, next) => {
+  let { name, category, logoUrl, linkProduct, desc } = req.body;
+  // console.log(name, category, logoUrl, linkProduct, desc);
+  if (!name || !category || !logoUrl || !linkProduct || !desc) {
+    // res.json({ mesage: "Some of your details are missing or not valid" });
+    res.redirect(`${process.env.HOST_URL}/missing-details`);
+  } else if (
+    name.trim().length === 0 ||
+    category.trim().length === 0 ||
+    logoUrl.trim().length === 0 ||
+    linkProduct.trim().length === 0 ||
+    desc.trim().length === 0
+  ) {
+    // res.json({ mesage: "Some of your details are missing or not valid" });
+    res.redirect(`${process.env.HOST_URL}/missing-details`);
+  } else {
+    next();
   }
 };
 
@@ -100,7 +122,8 @@ app.post("/login", isFilledLoginForm, isRegistered, (req, res) => {
         // res.json({ message: "Logged in" });
         res.redirect(`${process.env.HOST_URL}/`);
       } else {
-        res.json({ mesage: "Please enter correct password" });
+        // res.json({ mesage: "Please enter correct password" });
+        res.redirect(`${process.env.HOST_URL}/wrong-password`);
       }
     })
     .catch((err) => {
@@ -112,15 +135,18 @@ app.post("/signup", async (req, res) => {
   const { name, email, phone, password } = req.body;
   let isAcceptable = IsFilledSignUpForm(name, email, phone, password);
   if (isAcceptable === false) {
-    res.json({
-      mesage: "Some of your feilds are missing (Or) Enter valid details",
-    });
+    // res.json({
+    //   mesage: "Some of your feilds are missing (Or) Enter valid details",
+    // });
+    res.redirect(`${process.env.HOST_URL}/missing-details`);
   } else {
     isAcceptable = await isEmailAlreadyExist(email);
     if (isAcceptable === true) {
-      res.json({
-        mesage: "User with the same email already exist",
-      });
+      // res.json({
+      //   mesage: "User with the same email already exist",
+      // });
+    res.redirect(`${process.env.HOST_URL}/same-user-already-exist`);
+
     } else {
       const encryptedPassword = await bcrypt.hash(password, 10);
       token = jwt.sign({ email, password }, process.env.JWT_SECRET, {
@@ -139,7 +165,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.post("/add-products", async (req, res) => {
+app.post("/add-products", addProductIsFilled, async (req, res) => {
   let { name, category, logoUrl, linkProduct, desc } = req.body;
   category = category.split(",");
   for (let i = 0; i < category.length; i++) {
@@ -157,7 +183,27 @@ app.post("/add-products", async (req, res) => {
     cLen,
   })
     .then(() => {
-      res.json({ mesage: "Product added!" });
+      // res.json({ mesage: "Product added!" });
+      res.redirect(`${process.env.HOST_URL}/`);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+app.post("/edit-product/:id", addProductIsFilled, async (req, res) => {
+  const { id } = req.params;
+  let { name, category, logoUrl, linkProduct, desc } = req.body;
+  category = category.split(",");
+  for (let i = 0; i < category.length; i++) {
+    category[i] = category[i].trim();
+  }
+  await Product.findByIdAndUpdate(
+    { _id: id },
+    { name, category, logoUrl, linkProduct, desc }
+  )
+    .then(() => {
+      res.redirect(`${process.env.HOST_URL}/`);
     })
     .catch((err) => {
       console.log(err);
@@ -187,6 +233,20 @@ app.get("/products", async (req, res) => {
         console.log(err);
       });
   }
+});
+
+// get product by id
+
+app.get("/product/:id", async (req, res) => {
+  const { id } = req.params;
+
+  await Product.findById(id)
+    .then((product) => {
+      res.json(product);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 // sort by comments length (descending)

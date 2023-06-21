@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Customer = mongoose.model('Customer',{
     name: String,
     email: String,
-    mobile: Number,
+    phone: Number,
     password: String
 })
 

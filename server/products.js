@@ -7,7 +7,8 @@ const Product = mongoose.model("Product",{
     linkProduct: String,
     desc: String,
     upvotesCount: Number,
-    comments: Array
+    comments: Array,
+    cLen: Number
 })
 
 module.exports = Product;

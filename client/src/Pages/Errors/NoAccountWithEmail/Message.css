@@ -1,0 +1,47 @@
+.message {
+    display: flex;
+    flex-direction: column;
+    width: 72rem;
+    height: 20rem;
+    background: #FFFFFF;
+    box-shadow: 0px .4rem 3.6rem rgba(0, 0, 0, 0.25);
+    border-radius: 3.3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    box-sizing: border-box;
+    padding: 2rem;
+}
+
+.message-error {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2.5rem;
+    color: #36416A;
+    border: none;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.button-wrapper-message{
+    display: flex;
+    gap: 1rem;
+}
+
+.login-btn,
+.signup-btn,
+.home-btn {
+    cursor: pointer;
+    width: 15rem;
+    height: 4.4rem;
+    background: #36416A;
+    border-radius: 2.7907rem;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2rem;
+    line-height: 2.9rem;
+    color: #FFFFFF;
+    border: none;
+}
