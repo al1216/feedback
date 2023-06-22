@@ -20,7 +20,7 @@ export default function Form() {
       .catch((err) => {
         console.log(err);
       });
-      navigate(0);
+      // navigate(0);
   };
   return (
     <div className="form-login">
