@@ -1,0 +1,11 @@
+.container-message-mob {
+    width: 100vw;
+    height: 100vh;
+    background-color: #36416A;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 1rem;
+}

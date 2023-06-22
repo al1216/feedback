@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+.heading-login-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.9rem;
+    color: #FFFFFF;
+    margin-bottom: 0;
+}
+
+.content-login-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.6rem;
+    line-height: 3.3rem;
+    color: #FFFFFF;
+}

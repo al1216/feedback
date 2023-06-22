@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Feedback.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import SignUp from "./SignUp";
 import AddProduct from "./AddProduct";
 import EditProduct from "./EditProduct";
-import ReactDOM from "react-dom";
 
 export default function Feedback() {
+  // eslint-disable-next-line
   let useRefSend = useRef();
-  let navigate = useNavigate();
   let [isCommentBtnClicked, setIsCommentBtnClicked] = useState(false);
   let [isLoggedIn, setIsLoggedIn] = useState(false);
   let [myMapComments, setMyMapComments] = useState(new Map());
@@ -134,7 +132,7 @@ export default function Feedback() {
         });
     }
 
-    console.log(products);
+    // console.log(products);
   };
 
   let OnClickFilterSelection = (e, filter) => {
@@ -179,6 +177,7 @@ export default function Feedback() {
     node.style.background = "rgba(0, 0, 0, 0.6)";
   };
 
+  
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (token === "undefined" || !token) setIsLoggedIn(false);

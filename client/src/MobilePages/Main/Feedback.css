@@ -1,0 +1,408 @@
+.feedback-main-mob {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+/* Feedback Left */
+
+.feedback-left-mob {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.filter-name-written-mob {
+    color: #8B8B8B;
+    font-size: 16.618px;
+    font-family: DM Sans;
+    line-height: 147.2%;
+    margin-bottom: 0;
+}
+
+.apply-feedback-filters-mob {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%rem;
+    height: 100%rem;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    gap: 0.5rem;
+}
+
+.individual-filter-mob {
+    cursor: pointer;
+    width: 9.2rem;
+    height: 2.9rem;
+    background: rgba(54, 65, 106, 0.15);
+    border-radius: 2.50428rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #000000;
+    box-sizing: border-box;
+    padding: 0.5rem;
+}
+
+.filter-name-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: #000000;
+}
+
+.addon-css-mob {
+    background-color: #36416A;
+    color: white;
+}
+
+/* Feedback Right */
+
+.feedback-right-mob {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.suggest-sort-products-mob {
+    box-sizing: border-box;
+    padding: 2rem;
+    display: flex;
+    width: 100%;
+    height: 3.5rem;
+    background: #FFFFFF;
+    border: .3rem solid rgba(54, 65, 106, 0.35);
+    border-radius: .8rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.suggest-sort-mob {
+    display: flex;
+    gap: 2rem;
+}
+
+.suggestion-count-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #000000;
+}
+
+.select-sortby-caption-mob {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.sortby-caption-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: #8B8B8B;
+}
+
+.sortby-feedback-mob {
+    width: 1.3rem;
+    height: 1rem;
+    border: none;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #000000;
+}
+
+.addProduct-btn-mob {
+    cursor: pointer;
+    width: 12.3rem;
+    height: 2.6rem;
+    background: #36416A;
+    border-radius: .7rem;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: #FFFFFF;
+    border: none;
+}
+
+/* Post Feedback Up */
+
+.post-feedback-mob {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.wrapper-post-mob {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-details-overview-mob {
+    box-sizing: border-box;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 14rem;
+    background: rgba(54, 65, 106, 0.15);
+    border-radius: .4rem .4rem 0px 0px;
+}
+
+.post-left-mob {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.logo-product-mob {
+    width: 4.9rem;
+    height: 4.9rem;
+}
+
+.product-details-mob {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.product-name-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.7rem;
+    line-height: 147.2%;
+    color: #36416A;
+    margin-bottom: 0;
+}
+
+.product-caption-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: #000000;
+    margin: 0;
+}
+
+.feedback-filter-comments-mob {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.given-feedback-filters-mob {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.filters-of-product-mob {
+    display: flex;
+    width: 7.2rem;
+    height: 2.3rem;
+    background: #C0CEFF;
+    border-radius: 1.1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter-name-product-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 147.2%;
+    color: #000000;
+}
+
+.comment-logo-caption-mob {
+    cursor: pointer;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.comment-icon-mob {
+    width: 2.2rem;
+    height: 2.2rem;
+}
+
+.message-caption-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.88032rem;
+    line-height: 147.2%;
+    color: #ABABAB;
+}
+
+.post-right-mob {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.upvotes-count-box-mob {
+    display: flex;
+    flex-direction: column;
+    width: 2.8rem;
+    height: 5rem;
+    background: #C7CBD6;
+    border-radius: 1.2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.upvote-count-mob,
+.arrow-mob {
+    cursor: pointer;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 147.2%;
+    color: #000000;
+    margin: 0;
+}
+
+.arrow-mob {
+    font-size: 1rem;
+}
+
+.edit-comments-count-box-mob {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.edit-product-mob {
+    cursor: pointer;
+    width: 6.1rem;
+    height: 3rem;
+    background: #36416A;
+    border-radius: 2.9rem;
+    border: none;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 2.9rem;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.comment-count-box-mob {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.comment-count-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 147.2%;
+    color: #000000;
+}
+
+.comment-box-icon-mob {
+    width: 1.6rem;
+    height: 1.5rem;
+}
+
+/* Post Feedback Down(comments) */
+
+.post-comments-section-mob {
+    box-sizing: border-box;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 26.9rem;
+    background: #E1E3E9;
+    border-radius: 0px 0px .4rem .4rem;
+    gap: 1rem;
+}
+
+.input-send-section-mob {
+    box-sizing: border-box;
+    padding: 2rem;
+    display: flex;
+    border: .3rem solid #C7CBD6;
+    border-radius: 4.3rem;
+    background-color: white;
+    width: 100%;
+    height: 3.5rem;
+    align-items: center;
+}
+
+.comment-message-mob {
+    border: none;
+    outline: 0;
+    border-radius: 4.3rem;
+    width: 100%;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 147.2%;
+    color: #ABABAB;
+}
+
+.send-icon-mob {
+    cursor: pointer;
+    width: 1.7rem;
+    height: 1.5rem;
+}
+
+.view-all-comments-mob {
+    box-sizing: border-box;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.comment-content-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 147.2%;
+    color: #999999;
+}
+
+.a-comment-mob {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.bullet-icon-mob {
+    width: 1rem;
+    height: 1rem;
+}
+
+
+.makeZIndex-mob {
+    z-index: -1;
+}

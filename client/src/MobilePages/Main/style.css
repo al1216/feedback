@@ -1,0 +1,4 @@
+.container-main-mob{
+    display: flex;
+    flex-direction: column;
+}

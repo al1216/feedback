@@ -1,0 +1,32 @@
+.hero-main-mob {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    padding: 2rem;
+}
+
+.hero-left-img-mob {
+    width: 28.4rem;
+    height: 29.4rem;
+}
+
+.hero-heading-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2.1rem;
+    line-height: 147.2%;
+    color: #000000;
+}
+
+.content-hero-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.4rem;
+    line-height: 143.2%;
+    color: #6A6A6A;
+}

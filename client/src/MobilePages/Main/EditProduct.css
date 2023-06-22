@@ -1,0 +1,84 @@
+.addProduct-modal-mob {
+    z-index: 1;
+    display: flex;
+    width: 35rem;
+    height: 40rem;
+    background: #FFFFFF;
+    box-shadow: 0px .4345678806304932rem 3.911111068725586rem 0px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    top: 60%;
+    left: 9%;
+    border-radius: 1rem;
+}
+
+.left-add-modal-mob {
+    box-sizing: border-box;
+    padding: 2rem;
+    padding-left: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.modal-add-heading-mob,
+.close-btn-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2.1rem;
+    color: #000000;
+    margin-bottom: 0;
+}
+
+.add-form-mob {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.name-add-mob,
+.category-add-mob,
+.logo-add-mob,
+.link-add-mob,
+.desc-add-mob {
+    outline: 0;
+    border-width: 0 0 .1rem;
+    border-color: #AAAAAA;
+    width: 24rem;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: #737373;
+    box-sizing: border-box;
+    padding-left: 0.8rem;
+}
+
+.submit-add-btn-mob {
+    width: 24rem;
+    height: 3.3rem;
+    background: #36416A;
+    border-radius: 2.7907rem;
+    border: none;
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.6rem;
+    line-height: 2.9rem;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.wrapper-left-add-mob {
+    display: flex;
+    flex-direction: column;
+}
+
+.crossbutton-mob {
+    position: absolute;
+    color: #737373;
+    font-size: 2rem;
+    right: 2rem;
+    top: 0rem;
+    cursor: pointer;
+}

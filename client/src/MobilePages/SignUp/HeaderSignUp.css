@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+.heading-signup-mob {
+    color: #FFF;
+    font-size: 3.9963rem;
+    font-family: 'DM Sans';
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.content-signup-mob {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.6rem;
+    color: #FFFFFF;
+}
