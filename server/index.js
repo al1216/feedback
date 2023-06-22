@@ -10,7 +10,7 @@ const Customer = require("./customers");
 const Product = require("./products");
 dotEnv.config();
 
-let token;
+let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbW9oZWQ3MTZAbnphaWYuY29tIiwicGFzc3dvcmQiOiIxMjMiLCJpYXQiOjE2ODc0NjY4MDIsImV4cCI6MTY4NzU1MzIwMn0.plOcrsARdUlRVCcCVj9FnHTYf96Ymq3Y4kqrvvvaqIk";
 let isValidNumber = (num) => {
   let len = Math.ceil(Math.log10(num + 1)) - 1;
 

@@ -10,13 +10,17 @@ export default function Form() {
       .get(`${process.env.REACT_APP_HOST}/get-token`)
       .then((res) => {
         const code = res.data.code;
+        
         if (code === 200) {
           localStorage.setItem("token", res.data.message);
         }
+
+        console.log(res.data.message);
       })
       .catch((err) => {
         console.log(err);
       });
+      navigate(0);
   };
   return (
     <div className="form-login">

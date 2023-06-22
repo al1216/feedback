@@ -25,7 +25,7 @@ function App() {
     } else {
       setIsWebView(true);
     }
-    console.log(window.innerWidth, isWebView);
+    // console.log(window.innerWidth, isWebView);
   }, [isWebView]);
   return (
     <div className="App">

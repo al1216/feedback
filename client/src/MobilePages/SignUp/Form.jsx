@@ -84,8 +84,7 @@ export default function Form() {
         </table>
         <p className="login-signup-mob">
           Already have an account?{" "} <br />
-          <span onClick={() => navigate("/login")}>Log in</span> <br />
-          <span onClick={() => navigate("/")}>Home</span>
+          <span onClick={() => navigate("/login")}>Log in</span>
         </p>
         <div className="button-wrapper-signup-mob">
           <button type="submit" className="signup-btn-mob">
