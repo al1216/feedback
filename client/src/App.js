@@ -20,12 +20,22 @@ import SameUserExistMob from "./MobilePages/Errors/SameUserExist";
 function App() {
   let [isWebView, setIsWebView] = useState();
   useEffect(() => {
-    if (window.innerWidth <= 425) {
-      setIsWebView(false);
-    } else {
-      setIsWebView(true);
-    }
+    // if (window.innerWidth <= 425) {
+    //   setIsWebView(false);
+    // } else {
+    //   setIsWebView(true);
+    // }
     // console.log(window.innerWidth, isWebView);
+    if (
+      window.navigator.userAgent.includes("Windows") ||
+      window.navigator.userAgent.includes("Mac")
+    ) {
+      setIsWebView(true);
+    } else {
+      setIsWebView(false);
+    }
+
+    console.log(window.navigator.userAgent);
   }, [isWebView]);
   return (
     <div className="App">
